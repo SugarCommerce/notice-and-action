@@ -1,0 +1,21 @@
+{
+  "name": "sugarcommerce/notice-and-action",
+  "version": "1.0.0",
+  "description": "The structure a hosting service's notice-and-action process needs: the elements a report or a copyright notice must have before it can be acted on (EU Digital Services Act Article 16, US DMCA section 512(c)(3)), the statement of reasons a restriction must come with (DSA Article 17), and public references for reports. Returns codes, never wording, so every sentence stays yours to translate. Zero dependencies.",
+  "type": "library",
+  "license": "GPL-2.0-or-later",
+  "homepage": "https://github.com/sugarcommerce/notice-and-action",
+  "authors": [ { "name": "David Sherlock", "homepage": "https://arraypress.com/" } ],
+  "keywords": ["dsa", "dmca", "notice-and-action", "takedown", "trust-and-safety", "statement-of-reasons", "moderation"],
+  "require": {
+    "php": ">=8.5"
+  },
+  "require-dev": { "phpunit/phpunit": "^13.0" },
+  "autoload": { "psr-4": { "SugarCommerce\\NoticeAndAction\\": "src/" } },
+  "autoload-dev": { "psr-4": { "SugarCommerce\\NoticeAndAction\\Tests\\": "tests/" } },
+  "scripts": { "test": "phpunit" },
+  "config": { "optimize-autoloader": true, "sort-packages": true, "preferred-install": "dist" },
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "support": { "issues": "https://github.com/sugarcommerce/notice-and-action/issues", "source": "https://github.com/sugarcommerce/notice-and-action" }
+}
