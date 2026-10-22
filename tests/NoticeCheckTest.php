@@ -109,6 +109,22 @@ final class NoticeCheckTest extends TestCase {
 		$this->assertSame( array(), NoticeCheck::copyright( self::notice( array( 'accurate' => '1' ) ) ) );
 	}
 
+	/**
+	 * A statement under penalty of perjury is made or it is not: a value
+	 * that merely casts to 1 is not one.
+	 */
+	public function test_a_value_that_only_casts_to_one_is_not_a_statement(): void {
+		foreach ( array( '1abc', 1.5, array( 'x' ), '01', 'on' ) as $value ) {
+			$this->assertSame(
+				array( 'accurate' => Problem::Unaffirmed ),
+				NoticeCheck::copyright( self::notice( array( 'accurate' => $value ) ) ),
+				var_export( $value, true ) . ' was read as the accuracy statement.'
+			);
+		}
+
+		$this->assertSame( array(), NoticeCheck::copyright( self::notice( array( 'accurate' => true ) ) ) );
+	}
+
 	public function test_problems_come_in_field_order(): void {
 		$problems = NoticeCheck::problems( array( 'details' => '', 'category' => '' ), true );
 

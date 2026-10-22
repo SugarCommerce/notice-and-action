@@ -1,6 +1,6 @@
 {
   "name": "sugarcommerce/notice-and-action",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "The structure a hosting service's notice-and-action process needs: the elements a report or a copyright notice must have before it can be acted on (EU Digital Services Act Article 16, US DMCA section 512(c)(3)), the statement of reasons a restriction must come with (DSA Article 17), and public references for reports. Returns codes, never wording, so every sentence stays yours to translate. Zero dependencies.",
   "type": "library",
   "license": "GPL-2.0-or-later",

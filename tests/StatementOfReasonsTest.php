@@ -91,6 +91,14 @@ final class StatementOfReasonsTest extends TestCase {
 		$this->assertNull( Reference::parse( 'R-000000' ) );
 	}
 
+	/**
+	 * Cast, a number past PHP_INT_MAX becomes PHP_INT_MAX: a real id.
+	 */
+	public function test_a_reference_too_big_to_be_an_id_is_not_one(): void {
+		$this->assertNull( Reference::parse( 'R-99999999999999999999' ) );
+		$this->assertSame( PHP_INT_MAX, Reference::parse( 'R-' . PHP_INT_MAX ) );
+	}
+
 	/* ─── Must check ───────────────────────────────────────────────────── */
 
 	public function test_completeness_must_be_used(): void {

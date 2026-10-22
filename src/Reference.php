@@ -26,11 +26,19 @@ final readonly class Reference {
 
 	/**
 	 * The default prefix.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var string
 	 */
 	public const string PREFIX = 'R-';
 
 	/**
 	 * The default number of digits.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var int
 	 */
 	public const int DIGITS = 6;
 
@@ -57,7 +65,8 @@ final readonly class Reference {
 	 * @param string $reference As pasted: " r-000042 ".
 	 * @param string $prefix    What it starts with.
 	 *
-	 * @return int|null
+	 * @return int|null Null too for a number too big to be an id, rather
+	 *                  than PHP_INT_MAX, which a cast would quietly give.
 	 */
 	public static function parse( string $reference, string $prefix = self::PREFIX ): ?int {
 		$reference = strtoupper( trim( $reference ) );
@@ -69,6 +78,12 @@ final readonly class Reference {
 
 		$digits = substr( $reference, strlen( $prefix ) );
 
-		return '' !== $digits && ctype_digit( $digits ) && (int) $digits > 0 ? (int) $digits : null;
+		if ( '' === $digits || ! ctype_digit( $digits ) ) {
+			return null;
+		}
+
+		$id = filter_var( ltrim( $digits, '0' ), FILTER_VALIDATE_INT, array( 'options' => array( 'min_range' => 1 ) ) );
+
+		return false === $id ? null : $id;
 	}
 }

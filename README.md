@@ -61,6 +61,8 @@ foreach ( $problems as $field => $problem ) {
 | `accurate` | — | `1` | DMCA (vi); DSA 16(2)(d) |
 | `signature` | — | required | DMCA (i) |
 
+A statement is made only by exactly `1`, `'1'` or `true`. One made under penalty of perjury has to be unambiguous, so `'1abc'`, `1.5` or a checkbox's `'on'` is not one — map your form's value to `1` when you clean it.
+
 Which categories count as copyright, and what happens to a report that is incomplete — usually it still reaches a person — are yours to decide.
 
 ## Statements of reasons
@@ -102,7 +104,7 @@ composer install
 composer test
 ```
 
-24 tests: every element of a report and of a copyright notice, URL schemes, character counting, field order, every refusal of an incomplete statement of reasons, the four automation answers, and reference round trips.
+26 tests: every element of a report and of a copyright notice, statements that only cast to 1, URL schemes, character counting, field order, every refusal of an incomplete statement of reasons, the four automation answers, and reference round trips.
 
 ## License
 

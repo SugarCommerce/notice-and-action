@@ -42,10 +42,18 @@ final readonly class StatementOfReasons {
 
 	/**
 	 * The elements make() requires, in Article 17(3) order.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var list<string>
 	 */
 	public const array REQUIRED = array( 'restriction', 'facts', 'ground', 'redress' );
 
 	/**
+	 * Hold a statement; make() is the way in, and checks it.
+	 *
+	 * @since 1.0.0
+	 *
 	 * @param string     $restriction What was done: "File removed", "Account suspended".
 	 * @param string     $subject     What it was done to: a file's name, an account.
 	 * @param string     $facts       Why: the facts and circumstances relied on.
@@ -98,7 +106,7 @@ final readonly class StatementOfReasons {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string[] From REQUIRED.
+	 * @return list<string> From REQUIRED.
 	 */
 	public function missing(): array {
 		return array_values( array_filter( self::REQUIRED, fn ( string $element ): bool => '' === $this->{$element} ) );

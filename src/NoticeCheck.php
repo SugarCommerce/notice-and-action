@@ -41,6 +41,10 @@ namespace SugarCommerce\NoticeAndAction;
  * | `work`       | string | The copyrighted work. DMCA (ii). |
  * | `good_faith` | int    | 1 when the good-faith statement is made. DMCA (v). |
  * | `accurate`   | int    | 1 when the accuracy statement, under penalty of perjury, is made. DMCA (vi); DSA 16(2)(d). |
+ *
+ * A statement counts as made only when its field is exactly 1, '1' or true.
+ * One made under penalty of perjury has to be unambiguous, so a value that
+ * merely casts to 1 — '1abc', 1.5, a non-empty array — is not one.
  * | `signature`  | string | A typed full name. DMCA (i). |
  *
  * Not legal advice. Which categories need the copyright elements, and what
@@ -53,11 +57,19 @@ final readonly class NoticeCheck {
 
 	/**
 	 * The shortest explanation that can explain anything, in characters.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var int
 	 */
 	public const int EXPLANATION_MIN = 10;
 
 	/**
 	 * Every field the check reads.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var list<string>
 	 */
 	public const array FIELDS = array( 'category', 'name', 'email', 'details', 'location', 'work', 'good_faith', 'accurate', 'signature' );
 
@@ -105,8 +117,8 @@ final readonly class NoticeCheck {
 		return array_filter( array(
 			'location'   => '' === self::text( $fields['location'] ) ? Problem::Missing : null,
 			'work'       => '' === self::text( $fields['work'] ) ? Problem::Missing : null,
-			'good_faith' => 1 !== (int) $fields['good_faith'] ? Problem::Unaffirmed : null,
-			'accurate'   => 1 !== (int) $fields['accurate'] ? Problem::Unaffirmed : null,
+			'good_faith' => ! self::affirmed( $fields['good_faith'] ) ? Problem::Unaffirmed : null,
+			'accurate'   => ! self::affirmed( $fields['accurate'] ) ? Problem::Unaffirmed : null,
 			'signature'  => '' === self::text( $fields['signature'] ) ? Problem::Missing : null,
 		) );
 	}
@@ -127,7 +139,22 @@ final readonly class NoticeCheck {
 	}
 
 	/**
+	 * Whether a statement field says, unambiguously, that it was made.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param mixed $value Field value.
+	 *
+	 * @return bool True only for 1, '1' or true.
+	 */
+	private static function affirmed( mixed $value ): bool {
+		return 1 === $value || '1' === $value || true === $value;
+	}
+
+	/**
 	 * A field as trimmed text.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param mixed $value Field value.
 	 *
@@ -139,6 +166,8 @@ final readonly class NoticeCheck {
 
 	/**
 	 * Whether a location is an absolute http(s) URL.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string $value Location.
 	 *
